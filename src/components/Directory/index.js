@@ -15,7 +15,7 @@ const Directory = (props) => {
             backgroundImage: `url(${ShopWomen})`,
           }}
         >
-          <a>Shop Womens</a>
+          <a href='#/'>Shop Womens</a>
         </div>
         <div
           className='item'
@@ -23,7 +23,7 @@ const Directory = (props) => {
             backgroundImage: `url(${ShopMen})`,
           }}
         >
-          <a>Shop Mens</a>
+          <a href='#/'>Shop Mens</a>
         </div>
       </div>
     </div>
