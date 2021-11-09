@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './styles.scss'
 
 import AuthWrapper from '../AuthWrapper'
@@ -8,6 +9,7 @@ import Button from '../forms/Button'
 import { auth, handleUserProfile } from '../../firebase/utils'
 
 const Signup = (props) => {
+  const navigate = useNavigate()
   const [displayName, setDisplayName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -39,6 +41,7 @@ const Signup = (props) => {
 
       await handleUserProfile(user, { displayName })
       resetForm()
+      navigate('/')
     } catch (err) {
       // console.log(err)
     }

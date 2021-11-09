@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import AuthWrapper from '../AuthWrapper'
 import FormInput from '../forms/FormInput'
@@ -10,6 +10,7 @@ import { signInWithGoogle, auth } from '../../firebase/utils'
 import './styles.scss'
 
 const SignIn = (props) => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -24,6 +25,7 @@ const SignIn = (props) => {
     try {
       await auth.signInWithEmailAndPassword(email, password)
       resetForm()
+      navigate('/')
     } catch (err) {
       // console.log(err)
     }

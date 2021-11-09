@@ -1,8 +1,11 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { auth, handleUserProfile } from './firebase/utils'
 import { setCurrentUser } from './redux/User/user.actions'
+
+// hoc
+import WithAuth from './hoc/withAuth'
 
 // layouts
 import MainLayout from './layouts/MainLayout'
@@ -13,15 +16,15 @@ import Homepage from './pages/Homepage'
 import Registration from './pages/Registration'
 import Login from './pages/Login'
 import Recovery from './pages/Recovery'
+import Dashboard from './pages/Dashboard'
 
 import './default.scss'
 
-class App extends Component {
-  authListener = null
+const App = (props) => {
+  const { setCurrentUser, currentUser } = props
 
-  componentDidMount() {
-    const { setCurrentUser } = this.props
-    this.authListener = auth.onAuthStateChanged(async (userAuth) => {
+  useEffect(() => {
+    const authListener = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await handleUserProfile(userAuth)
         userRef.onSnapshot((snapshot) => {
@@ -34,63 +37,61 @@ class App extends Component {
 
       setCurrentUser(userAuth)
     })
-  }
 
-  componentWillUnmount() {
-    this.authListener()
-  }
+    return () => {
+      authListener()
+    }
+  }, [])
 
-  render() {
-    const { currentUser } = this.props
-
-    return (
-      <div className='App'>
-        <Routes>
-          <Route
-            exact
-            path='/'
-            element={
-              <HomepageLayout>
-                <Homepage />
-              </HomepageLayout>
-            }
-          />
-          <Route
-            path='/registration'
-            element={
-              currentUser ? (
-                <Navigate to='/' />
-              ) : (
-                <MainLayout>
-                  <Registration />
-                </MainLayout>
-              )
-            }
-          />
-          <Route
-            path='/login'
-            element={
-              currentUser ? (
-                <Navigate to='/' />
-              ) : (
-                <MainLayout>
-                  <Login />
-                </MainLayout>
-              )
-            }
-          />
-          <Route
-            path='/recovery'
-            element={
+  return (
+    <div className='App'>
+      <Routes>
+        <Route
+          exact
+          path='/'
+          element={
+            <HomepageLayout>
+              <Homepage />
+            </HomepageLayout>
+          }
+        />
+        <Route
+          path='/registration'
+          element={
+            <MainLayout>
+              <Registration />
+            </MainLayout>
+          }
+        />
+        <Route
+          path='/login'
+          element={
+            <MainLayout>
+              <Login />
+            </MainLayout>
+          }
+        />
+        <Route
+          path='/recovery'
+          element={
+            <MainLayout>
+              <Recovery />
+            </MainLayout>
+          }
+        />
+        <Route
+          path='/dashboard'
+          element={
+            <WithAuth>
               <MainLayout>
-                <Recovery />
+                <Dashboard />
               </MainLayout>
-            }
-          />
-        </Routes>
-      </div>
-    )
-  }
+            </WithAuth>
+          }
+        />
+      </Routes>
+    </div>
+  )
 }
 
 const mapStateToProps = ({ user }) => ({
