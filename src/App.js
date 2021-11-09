@@ -68,9 +68,13 @@ class App extends Component {
           <Route
             path='/registration'
             element={
-              <MainLayout currentUser={currentUser}>
-                <Registration />
-              </MainLayout>
+              currentUser ? (
+                <Navigate to='/' />
+              ) : (
+                <MainLayout currentUser={currentUser}>
+                  <Registration />
+                </MainLayout>
+              )
             }
           />
           <Route
