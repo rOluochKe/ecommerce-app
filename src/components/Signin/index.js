@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
+import AuthWrapper from '../AuthWrapper'
 import FormInput from '../forms/FormInput'
 import Button from '../forms/Button'
 
@@ -48,42 +50,44 @@ class SignIn extends Component {
   render() {
     const { email, password } = this.state
 
+    const configAuthWrapper = {
+      headline: 'Login',
+    }
+
     return (
-      <div className='signin'>
-        <div className='wrap'>
-          <h2>Log In</h2>
+      <AuthWrapper {...configAuthWrapper}>
+        <div className='formWrap'>
+          <form onSubmit={this.handleSubmit}>
+            <FormInput
+              type='email'
+              name='email'
+              value={email}
+              placeholder='Email'
+              onChange={this.handleChange}
+            />
 
-          <div className='formWrap'>
-            <form onSubmit={this.handleSubmit}>
-              <FormInput
-                type='email'
-                name='email'
-                value={email}
-                placeholder='Email'
-                onChange={this.handleChange}
-              />
+            <FormInput
+              type='password'
+              name='password'
+              value={password}
+              placeholder='Password'
+              onChange={this.handleChange}
+            />
 
-              <FormInput
-                type='password'
-                name='password'
-                value={password}
-                placeholder='Password'
-                onChange={this.handleChange}
-              />
+            <Button type='submit'>Login</Button>
 
-              <Button type='submit'>Login</Button>
-
-              <div className='socialSignin'>
-                <div className='row'>
-                  <Button onClick={signInWithGoogle}>
-                    Sign In with Google
-                  </Button>
-                </div>
+            <div className='socialSignin'>
+              <div className='row'>
+                <Button onClick={signInWithGoogle}>Sign In with Google</Button>
               </div>
-            </form>
-          </div>
+            </div>
+
+            <div className='links'>
+              <Link to='/recovery'>Reset Password</Link>
+            </div>
+          </form>
         </div>
-      </div>
+      </AuthWrapper>
     )
   }
 }
