@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 
 import {
-  signinUser,
-  signInWithGoogle,
-  resetAllAuthForms,
+  emailSignInStart,
+  googleSignInStart,
 } from './../../redux/User/user.actions'
 
 import AuthWrapper from '../AuthWrapper'
@@ -15,23 +14,22 @@ import Button from '../forms/Button'
 import './styles.scss'
 
 const mapState = ({ user }) => ({
-  signInSuccess: user.signInSuccess,
+  currentUser: user.currentUser,
 })
 
 const SignIn = (props) => {
-  const { signInSuccess } = useSelector(mapState)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { currentUser } = useSelector(mapState)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   useEffect(() => {
-    if (signInSuccess) {
+    if (currentUser) {
       resetForm()
-      dispatch(resetAllAuthForms())
       navigate('/')
     }
-  }, [signInSuccess])
+  }, [currentUser])
 
   const resetForm = () => {
     setEmail('')
@@ -41,11 +39,11 @@ const SignIn = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    dispatch(signinUser({ email, password }))
+    dispatch(emailSignInStart({ email, password }))
   }
 
   const handleGoogleSigIn = () => {
-    dispatch(signInWithGoogle())
+    dispatch(googleSignInStart())
   }
 
   const configAuthWrapper = {
