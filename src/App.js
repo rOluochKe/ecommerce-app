@@ -25,6 +25,7 @@ import Dashboard from './pages/Dashboard'
 import Admin from './pages/Admin'
 import Search from './pages/Search'
 import ProductDetails from './pages/ProductDetails'
+import Cart from './pages/Cart'
 
 import './default.scss'
 
@@ -70,6 +71,14 @@ const App = (props) => {
           element={
             <MainLayout>
               <ProductDetails />
+            </MainLayout>
+          }
+        />
+        <Route
+          path='/cart'
+          element={
+            <MainLayout>
+              <Cart />
             </MainLayout>
           }
         />

@@ -2,11 +2,11 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from './../../forms/Button'
 import { useDispatch } from 'react-redux'
-// import { addProduct } from './../../../redux/Cart/cart.actions'
+import { addProduct } from './../../../redux/Cart/cart.actions'
 
 const Product = (product) => {
-  // const dispatch = useDispatch()
-  // const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { documentID, productThumbnail, productName, productPrice } = product
   if (
     !documentID ||
@@ -20,11 +20,11 @@ const Product = (product) => {
     type: 'button',
   }
 
-  // const handleAddToCart = (product) => {
-  //   if (!product) return
-  //   dispatch(addProduct(product))
-  //   navigate('/cart')
-  // }
+  const handleAddToCart = (product) => {
+    if (!product) return
+    dispatch(addProduct(product))
+    navigate('/cart')
+  }
 
   return (
     <div className='product'>
@@ -46,7 +46,12 @@ const Product = (product) => {
           </li>
           <li>
             <div className='addToCart'>
-              <Button {...configAddToCartBtn}>Add to cart</Button>
+              <Button
+                {...configAddToCartBtn}
+                onClick={() => handleAddToCart(product)}
+              >
+                Add to cart
+              </Button>
             </div>
           </li>
         </ul>
