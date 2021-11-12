@@ -6,7 +6,7 @@ import './styles.scss'
 
 const mapState = ({ user, ordersData }) => ({
   currentUser: user.currentUser,
-  orderHistory: ordersData.orderHistory.data,
+  // orderHistory: ordersData.orderHistory.data,
 })
 
 const Dashboard = (props) => {
